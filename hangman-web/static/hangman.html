@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;500;600;700&family=Rubik:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.png/">
+    <title>Hangman Game</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="hangman">Hangman</h1>
+    
+        {{if (le .Chance 0)}}
+        <p>You Lost :(</p>
+        {{else if (eq .Solutionstr .Wordstr)}}
+        <p>You Win !</p>
+        {{else}}
+        <p>Nagib & Luc wish you good luck.</p>
+        {{end}}
+
+        <div class="game-box">
+            <svg class="figure"> 
+            <line x1="5%" y1="95%" x2="45%" y2="95%"/>
+            {{.Arrstr}}
+        </svg>
+                <ul id="word" class="word"> 
+                    {{if (eq .Chance 0)}}
+                    {{.Solution}}
+                    {{else}}
+                    {{.Word}}
+                    {{end}}
+                </ul>
+                <div id="incorrect" class="incorrect">
+                    <h2>Incorrect :</h2>
+                    <p></p>
+                </div>
+            </div>
+            <p>
+            Number of Guesses Left : {{.Chance}}
+            </p>
+            <div id="backdrop" class="backdrop"></div>
+            <div id="final-msg" class="final-msg">
+                <p id="msg-info" class="msg-info"></p>
+                <button id="play" class="play">Play Again</button>
+                
+            </div>
+<div class="button">
+        {{if (le .Chance 0)}}
+        <form style="text-align: center;" action="/hangmanPOST?key="+id="form"+ method="get" method="post">
+            <input style="width:190px;height:20px;color: red;" type="submit" name="key" value="Retry" >
+        </form>
+        {{else if (eq .Solutionstr .Wordstr)}}
+        <form style="text-align: center;" action="/hangmanPOST?key="+id="form"+ method="get" method="post">
+            <input style="width:190px;height:20px;color: green;" type="submit" name="key" value="Retry" >
+        </form>
+        {{else}}
+        <form style="text-align: center;" action="/hangmanPOST?key="+id="form"+ method="get" method="post">
+            <input type="text" name="key" id="name" placeholder="Enter a letter or word" required>
+            <input type="submit" value="Send">
+        </form>
+        {{end}}
+        <br><br><br>
+        <form style="text-align: center;" action="/hangmanPOST?key=" method="get" id="form">
+            <input style="width:190px;height:20px" type="submit" name="key" value="Reset" >
+        </form>
+
+        
+        
+        {{if .Doublon}}
+                <p style="color: red;">You have already entered this letter</p>
+        {{end}}
+
+        </div>
+    </div>
+</body>
+
+</html>
